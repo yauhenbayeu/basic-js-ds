@@ -16,24 +16,112 @@ class BinarySearchTree {
     return this.treeRoot
   }
 
-  add(/* data */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  add(value) {
+    // const _node = new Node(value);
+
+    this.treeRoot = addToTree(this.treeRoot, value)
+    function addToTree(node, value) {
+      if (!node) {
+        return new Node(value);
+      }
+
+      if (node.value === value) {
+        return node;
+      }
+
+      if (value < node.value) {
+        node.left = addToTree(node.left, value)
+      }
+      else {
+        node.right = addToTree(node.right, value)
+      }
+
+      return node
+    }
   }
 
-  has(/* data */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  has(value) {
+    return searchInTree(this.treeRoot, value);
+
+    function searchInTree(node, value) {
+      if (!node) {
+        return null;
+      }
+
+      if (node.value === value) {
+        return true;
+      }
+
+      if (value < node.value) {
+        return searchInTree(node.left, value);
+      }
+      else {
+        return searchInTree(node.right, value);
+      }
+    }
   }
 
-  find(/* data */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  find(value) {
+    return findInTree(this.treeRoot, value);
+
+    function findInTree(node, value) {
+      if (!node) {
+        return false;
+      }
+
+      if (node.value === value) {
+        return true;
+      }
+
+      if (value < node.value) {
+        return findInTree(node.left, value);
+      }
+      else {
+        return findInTree(node.right, value);
+      }
+    }
   }
 
-  remove(/* data */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+
+  remove(value) {
+    this.treeRoot = removeNode(this.treeRoot, value);
+
+    function removeNode(node, value) {
+      if (!node) {
+        return null;
+      }
+
+      if (value < node.value) {
+        node.left = removeNode(node.left, value);
+        return node;
+      }
+      else if (node.value < value) {
+        node.right = removeNode(node.right, value);
+        return node;
+      }
+      else {
+        if (!node.left && !node.right) {
+          return null;
+        }
+        if (!node.left) {
+          node = node.right;
+          return node;
+        }
+        if (!node.right) {
+          node = node.left;
+          return node;
+        }
+      }
+
+      let rightMin = node.right;
+      while (rightMin.left) {
+        rightMin.left;
+      }
+      node.value =rightMin.value;
+      node.right = removeNode(node.right, rightMin.value);
+      return node;
+    }
+
   }
 
   min() {
